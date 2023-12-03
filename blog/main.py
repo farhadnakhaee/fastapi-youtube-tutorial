@@ -72,28 +72,3 @@ def show_user(id, db: Session = Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"User with id {id} is not available.")
     return user
-
-# ========================================================
-
-# oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
-# def fake_hash_password(password: str):
-#     return "fakehashed" + password
-
-# def get_user(username: str, db: Session = Depends(get_db)):
-#     users = db.query(models.User)
-#     if username in users:
-#         user_dict = users[username]
-#         return schemes.UserIn(**user_dict)
-
-# def fake_decode_token(token):
-#     user = get_user(???, token)
-#     return user
-
-# async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
-#     user = fake_decode_token(token)
-#     return user
-
-# @app.get('/users/', status_code=200)
-# def show_user(current_user: Annotated[schemes.User, Depends(get_current_user)]):
-#     return current_user 
