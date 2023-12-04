@@ -1,27 +1,42 @@
-from pydantic import BaseModel, SecretStr
+from pydantic import BaseModel
+
 
 class BlogBase(BaseModel):
     title: str
     body: str
 
-class BlogCreate(Blog):
-    pass
 
-class Blog(Blog):
-    id: int
-    owner_id: int
+class BlogCreate(BlogBase):
+    user_id: int
 
-    class Config():
-        orm_mode = True
 
 class UserBase(BaseModel):
     name: str | None = None
     email: str | None = None
-    
-class UserIn(User):
+
+
+class UserIn(UserBase):
     password: str | None = None
-    
-class User(User):
-    id: int
-    is_active: bool
-    items: list[Blog] = []
+
+
+class User(BaseModel):
+    name: str
+    email: str
+    blogs: list[BlogBase]
+
+    class Config:
+        orm_mode = True
+
+
+class Blog(BaseModel):
+    title: str
+    body: str
+    creator: UserBase
+
+    class Config:
+        orm_mode = True
+
+
+class Login(BaseModel):
+    username: str
+    password: str
