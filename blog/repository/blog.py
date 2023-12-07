@@ -29,7 +29,7 @@ def delete(id, db: Session):
     return 'deleted'
 
 
-def update(id, request: schemes.Blog, db: Session):
+def update(id, request: schemes.BlogBase, db: Session):
     blog = db.query(models.Blog).filter(models.Blog.id == id)
     if not blog.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
