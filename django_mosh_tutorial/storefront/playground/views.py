@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.db.models import Q, F, Func, Value, ExpressionWrapper, DecimalField
 from django.db.models.aggregates import Count, Max, Min, Avg, Sum
 from django.contrib.contenttypes.models import ContentType
-from store.models import OrderItem, Product, Order, Customer
+from store.models import OrderItem, Product, Order, Customer, Collection
 from tags.models import TaggedItem
 
 
@@ -77,7 +77,46 @@ def say_hello(request):
 
 
 # quering generic relationship
-def say_hello_html(request):
-    queryset = TaggedItem.objects.get_tags_for(Product, 1)
+# def say_hello_html(request):
+#     queryset = TaggedItem.objects.get_tags_for(Product, 1)
 
-    return render(request, 'hello.html', {'name': 'Farhad', 'result': queryset})
+#     return render(request, 'hello.html', {'name': 'Farhad', 'result': queryset})
+
+
+# creating objects
+# def say_hello_html(request):
+    # method 1
+    # collection = Collection()
+    # collection.title = 'video games'
+    # collection.featured_product = Product(pk=1)
+    # collection.save()
+
+    # method 2
+    # collection = Collection.objects.create(title='a', featured_product_id=1)
+    # return render(request, 'hello.html', {'name': 'Farhad'})
+
+
+# updating objects
+# def say_hello_html(request):
+    # method 1
+    # collection = Collection.objects.get(pk=12)
+    # collection.featured_product = None
+    # collection.save()
+
+    # method 2
+    # Collection.objects.filter(pk=13).update(title='games')
+
+    # return render(request, 'hello.html', {'name': 'Farhad'})
+
+
+# deleting
+# def say_hello_html(request):
+    # method 1
+    # collectin = Collection(pk=11)
+    # collectin.delete()
+    # method 2
+    # Collection.objects.filter(pk__gt=11).delete()
+    # return render(request, 'hello.html', {'name': 'Farhad'})
+
+
+# transaction
