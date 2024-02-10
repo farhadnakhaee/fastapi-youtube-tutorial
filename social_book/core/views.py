@@ -10,6 +10,10 @@ def index(request):
     return render(request, 'index.html')
 
 
+def upload(request):
+    return HttpResponse("upload page")
+
+
 def signup(request):
 
     if request.method == "POST":
@@ -72,4 +76,18 @@ def logout(request):
 
 @login_required(login_url='signin')
 def setting(request):
-    return render(request, 'setting.html')
+    user_profile = Profile.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        new_image = request.FILES.get('image')
+        new_bio = request.POST['bio']
+        new_locatoin = request.POST['location']
+
+        if new_image:
+            user_profile.profileimg = new_image
+        user_profile.bio = new_bio
+        user_profile.location = new_locatoin
+        user_profile.save()
+        return redirect('setting')
+
+    return render(request, 'setting.html', {'user_profile': user_profile})
