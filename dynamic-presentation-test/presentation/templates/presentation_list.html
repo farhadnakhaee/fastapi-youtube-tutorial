@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Presentations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .presentation-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .presentation-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .presentation-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .presentation-details {
+            margin-bottom: 5px;
+        }
+
+        .presentation-actions {
+            display: flex;
+        }
+
+        .presentation-actions a {
+            margin-right: 10px;
+            color: #333;
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .add-button {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <a href="presentations/create" class="add-button">Add Presentation</a>
+    <h1>My Presentations - {{user.username}}</h1>
+    <ul class="presentation-list">
+        {% for presentation in presentations %}
+        <li class="presentation-item">
+            <div class="presentation-title">{{ presentation.title }}</div>
+            <div class="presentation-details">
+                <span>Subtitle: {{ presentation.subtitle }}</span><br>
+                <span>Presenter Name: {{ presentation.presenter_name }}</span><br>
+                <span>Date: {{ presentation.date }}</span>
+            </div>
+            <div class="presentation-actions">
+                <a href="/{{presentation}}/{{ 1 }}">View</a>
+                <a href="/presentations/edit/{{ presentation.id }}">Edit</a>
+                <a href="/presentations/delete/{{ presentation.id }}">Delete</a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

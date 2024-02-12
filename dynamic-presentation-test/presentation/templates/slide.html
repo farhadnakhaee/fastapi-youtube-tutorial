@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        .presentation {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .slide {
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .slide:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        p {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<div class="presentation">
+    <p>{{data}}</p>
+    <!-- {% for url in presentation.urls.all %}
+        <div class="slide">
+            <h3>Presentation: {{ presentation }}</h3>
+            <p>Order: {{ url.order }}</p>
+            <p>Url: {{ url.url }}</p>
+            <p>data: {{ url.data }}</p>
+            <!-- Add logic to render slide data based on your requirements -->
+            <br>
+        </div>
+    {% endfor %} -->
+    <div class="presentation-actions">
+        <a href="/presentations/{{ presentation.id }}">View</a>
+        <a href="/presentations/{{ presentation.id }}/edit">Edit</a>
+        <a href="/presentations/{{ presentation.id }}/delete">Delete</a>
+    </div>
+</div>
+
+</body>
+</html>
