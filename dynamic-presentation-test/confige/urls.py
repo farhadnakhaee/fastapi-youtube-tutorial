@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('mypresentation/', login_required(admin.site.index), name='custom_admin'),
     path('', include('presentation.urls')),
 ]

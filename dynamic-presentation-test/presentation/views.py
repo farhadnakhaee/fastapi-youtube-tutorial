@@ -63,12 +63,21 @@ def signin(request):
 def presentation_list(request):
     user_object = request.user
     presentations = Presentation.objects.filter(user=user_object)
-    return render(request, 'presentation_list.html', {'presentations': presentations})
+    response = {
+        'presentations': [
+        {
+            'title': presentation.title, 
+            'subtitle': presentation.subtitle, 
+            'presenter_name': presentation.presenter_name, 
+            'date': presentation.date, 
+            'background_image': presentation.background_image.url, 
+            'slug': presentation.slug, 
+            'urls': [url.url for url in presentation.urls.all()]
+            }
+        for presentation in presentations]
+        }
 
-# @login_required(login_url='signin')
-# def presentation_detail(request, pk):
-    presentation = Presentation.objects.get(pk=pk)
-    return render(request, 'slides.html', {'presentation': presentation})
+    return JsonResponse(response, safe=False)
 
 @login_required(login_url='signin')
 def create_presentation(request):
@@ -85,12 +94,15 @@ def create_presentation(request):
             background_image=request.FILES.get('background_image'),
             slug=request.POST['slug'],
         )
+        for url in urls:
+            url_object, created = Url.objects.get_or_create(url=url)
+            new_presentation.urls.add(url_object)
         new_presentation.save()
 
-        for order, url in enumerate(urls):
+        # for order, url in enumerate(urls):
         #     # if url not in Url.objects.values('url'):
         #     data = digikala_api.get_section(url)
-            Url.objects.create(presentation=new_presentation, order=order+1, url=url)
+            # Url.objects.create(presentation=new_presentation, order=order+1, url=url)
 
         return redirect('presentation_list')
     return render(request, 'create_presentation.html')
@@ -101,8 +113,8 @@ def delete_presentation(request, pk):
     presentation.delete()
     return redirect('presentation_list')
 
-@login_required(login_url='signin')
-def update_presentation(request, pk):
+# @login_required(login_url='signin')
+# def update_presentation(request, pk):
     presentation = Presentation.objects.get(pk=pk)
     urls = Url.objects.filter(presentation=presentation)
 
