@@ -1,15 +1,16 @@
 from django.urls import path
+
 from . import views
 
 urlpatterns = [
-    path('signup', views.signup, name='signup'),
-    path('signin', views.signin, name='signin'),
-    path('presentations', views.presentation_list, name='presentation_list'),
-    path('presentations/create', views.create_presentation, name='create_presentation'),
-    path('presentations/delete/<int:pk>', views.delete_presentation, name='delete_presentation'),
-    # path('presentations/view/<int:pk>', views.update_presentation, name='update_presentation'),
-    # path('presentations/edit/<int:pk>', views.update_presentation, name='update_presentation'),
-    path('<slug:presentation_name>', views.presentation_slides_order, name='presentation_slides_order'),
-    path('<slug:presentation_name>/<int:slide_id>', views.slide_detail, name='slide_detail'),
+    path("api/presentations/", views.PresentationList.as_view(), name="presentation_create_list"),
+    path("api/presentations/<str:slug>/", views.PresentationDetail.as_view(), name="presentation_detail"),
+    path("api/presentations/<str:slug>/<int:order>/", views.SlideDetailView.as_view(), name="slide_detail"),
+    # user path
+    path("index", views.index, name="index"),
+    path('login', views.login, name='login'),
+    path('logout', views.logout, name='logout'),
+    path('create', views.create, name='create'),
+    path('delete/<str:slug>', views.delete, name='delete'),
+    path('update/<str:slug>', views.update, name='update'),
 ]
-
