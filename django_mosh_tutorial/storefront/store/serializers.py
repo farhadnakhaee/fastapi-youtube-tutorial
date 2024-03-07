@@ -55,6 +55,10 @@ class SimpleProductSerializer(serializers.ModelSerializer):
 class AddCartItemSerializer(serializers.ModelSerializer):
     product_id = serializers.IntegerField()
 
+    class Meta:
+        model = CartItem
+        fields = ['id', 'product_id', 'quantity']
+
     def validate_product_id(self, value):
         if not Product.objects.filter(pk=value).exists():
             raise serializers.ValidationError('No Product with given ID was found.')
@@ -73,9 +77,11 @@ class AddCartItemSerializer(serializers.ModelSerializer):
             self.instance = CartItem.objects.create(cart_id=cart_id, **self.validated_data)
         return self.instance
 
+
+class UpdateCartItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartItem
-        fields = ['id', 'product_id', 'quantity']
+        fields = ['quantity']
 
 
 class CartItemSerializer(serializers.ModelSerializer):
